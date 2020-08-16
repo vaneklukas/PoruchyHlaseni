@@ -1,6 +1,7 @@
-﻿<Application x:Class="PoruchyHlaseni.App"
-                          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Application x:Class="PoruchyUdrzba.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PoruchyUdrzba"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

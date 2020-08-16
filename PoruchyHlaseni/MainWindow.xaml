@@ -6,8 +6,110 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:PoruchyHlaseni"
         mc:Ignorable="d"
-        Title="Hlášení poruch" Height="450" Width="800">
-    <Grid>
+        Title="Hlášení poruch" Height="{Binding SystemParameters.PrimaryScreenHeight}" 
+        Width="{Binding SystemParameters.PrimaryScreenWidth}" WindowStartupLocation="CenterScreen">
+    <Grid Margin="5" >
+        <Grid.ColumnDefinitions> <!--30sloupcu-->
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions> <!--30 radku-->
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Image Source="Image\BNLogo.jpg" Grid.Column="25" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="4" />
+        <!--Name-->
+        
+        <TextBox mah:TextBoxHelper.Watermark="Zadej prosím jméno" mah:TextBoxHelper.ClearTextButton="True" 
+                 x:Name="TbName" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="8"
+                 BorderBrush="Black" BorderThickness="2" FontSize="20" VerticalAlignment="Bottom"  Visibility="Visible"></TextBox>
+        <!--Stredisko-->
+        <Label x:Name="LabSterdisko"  Grid.Column="10" Grid.ColumnSpan="8" Grid.Row="1" Grid.RowSpan="3" FontSize="24"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Zvol středisko</Label>
+        <mah:SplitButton x:Name="SpBtStredisko" Visibility="Visible" VerticalAlignment="Center" Grid.ColumnSpan="6"
+                         Grid.RowSpan="3" Grid.Column="11" Grid.Row="4" FontSize="18" SelectionChanged="SpBtStredisko_SelectionChanged" >
+        </mah:SplitButton>
+        <!--Typ Poruchy-->
+        <Label x:Name="LabType" Grid.Column="10" Grid.ColumnSpan="8" Grid.Row="7" Grid.RowSpan="3" FontSize="24"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="Hidden">Zvol druh poruchy</Label>
+        <mah:SplitButton x:Name="SpBtType" Visibility="Hidden" VerticalAlignment="Center" Grid.ColumnSpan="6"
+                         Grid.RowSpan="3" Grid.Column="11" Grid.Row="10" FontSize="18" SelectionChanged="SpBtType_Selected" >
+        </mah:SplitButton>
+        <!--Machine-->
+        <Label x:Name="LabMachine"  Grid.Column="10" Grid.ColumnSpan="8" Grid.Row="13" Grid.RowSpan="3" FontSize="24"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Visibility="Hidden">Vyber stroj</Label>
+        <mah:SplitButton x:Name="SpBtMachine" Visibility="Hidden" VerticalAlignment="Center" Grid.ColumnSpan="6"
+                         Grid.RowSpan="3" Grid.Column="11" Grid.Row="16" FontSize="18" SelectionChanged="SpBtMachine_SelectionChanged">
+        </mah:SplitButton>
+        
+        <!--Comment-->
+        <Label x:Name="LabComment" Grid.Column="10" Grid.ColumnSpan="8" Grid.Row="19" Grid.RowSpan="3" FontSize="24"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" Visibility="Hidden">Přidej komentář k poruše</Label>
+        <TextBox mah:TextBoxHelper.Watermark="Přidej prosím popis poruchy" mah:TextBoxHelper.ClearTextButton="True" 
+                 x:Name="TbCommnet" Grid.Row="22" Grid.RowSpan="5" Grid.Column="2" Grid.ColumnSpan="26"
+                 BorderBrush="Black" BorderThickness="2" FontSize="20"  Visibility="Hidden"></TextBox>
+       
+        <Button x:Name="BtNext" Grid.Row="28" Grid.RowSpan="2" Grid.Column="25" Grid.ColumnSpan="3" Click="BtNext_Click" 
+                BorderBrush="Green" BorderThickness="2" Background="LightGreen" FontSize="16" Visibility="Visible">Smazat</Button>
+        <Button x:Name="BtFinis" Grid.Row="28" Grid.RowSpan="2" Grid.Column="13" Grid.ColumnSpan="3" Click="BtFinis_Click" 
+                BorderBrush="Red" BorderThickness="2" Background="#FFFF5E75" FontSize="16" Visibility="Hidden">Hotovo</Button>
         
     </Grid>
 </mah:MetroWindow>
