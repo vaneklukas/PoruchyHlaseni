@@ -16,51 +16,79 @@ namespace PoruchyHlaseni.Model
         public DataTable getStredisko()
         {
             DataTable dataTable = new DataTable();
-            using (SQLiteConnection conn = new SQLiteConnection(@"Data Source="+connectionString+';'))
+            try
             {
-                conn.Open();
+                using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=" + connectionString + ';'))
+                {
+                    conn.Open();
 
-                SQLiteCommand command = new SQLiteCommand("Select * from Stredisko", conn);
-                SQLiteDataReader reader = command.ExecuteReader();
-                dataTable.Load(reader);
-                
-                reader.Close();
+                    SQLiteCommand command = new SQLiteCommand("Select * from Stredisko", conn);
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    dataTable.Load(reader);
+
+                    reader.Close();
+                }
             }
+            catch (SQLiteException x)
+            {
+                LogClass log = new LogClass();
+                log.writeLog(x.ToString());
+            }
+            
             return dataTable;
         }
 
         public DataTable getMachines()
         {
             DataTable dataTable = new DataTable();
-            using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=" + connectionString + ';'))
+            try
             {
-                conn.Open();
+                using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=" + connectionString + ';'))
+                {
+                    conn.Open();
 
-                SQLiteCommand command = new SQLiteCommand("Select * from Machine", conn);
-                SQLiteDataReader reader = command.ExecuteReader();
-                dataTable.Load(reader);
+                    SQLiteCommand command = new SQLiteCommand("Select * from Machine", conn);
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    dataTable.Load(reader);
 
-                reader.Close();
+                    reader.Close();
+                }
             }
+            catch (SQLiteException x)
+            {
+
+                LogClass log = new LogClass();
+                log.writeLog(x.ToString());
+            }
+           
             return dataTable;
         }
         public DataTable getTypesOfError()
         {
             DataTable dataTable = new DataTable();
-            using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=" + connectionString + ';'))
+            try
             {
-                conn.Open();
+                using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=" + connectionString + ';'))
+                {
+                    conn.Open();
 
-                SQLiteCommand command = new SQLiteCommand("Select * from Types", conn);
-                SQLiteDataReader reader = command.ExecuteReader();
-                dataTable.Load(reader);
+                    SQLiteCommand command = new SQLiteCommand("Select * from Types", conn);
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    dataTable.Load(reader);
 
-                reader.Close();
+                    reader.Close();
+                }
             }
+            catch (SQLiteException x)
+            {
+
+                LogClass log = new LogClass();
+                log.writeLog(x.ToString());
+            }           
             return dataTable;
         }
 
-        public bool insertData(string[]data, DateTime dateTime)
+        public bool insertData(string[]data, string dateTime)
         {
             bool success= true;
 
@@ -69,7 +97,6 @@ namespace PoruchyHlaseni.Model
                 using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=" + connectionString + ';'))
                 {
                     conn.Open();
-
                     SQLiteCommand command = new SQLiteCommand("INSERT into Poruchy (stredisko,machine,startTime,operator,open,commentOp,type) VALUES(:P1,:P2, :P3, :P4, :P5, :P6, :P7)", conn);
                     command.Parameters.Add(new SQLiteParameter("P1", data[0]));
                     command.Parameters.Add(new SQLiteParameter("P2", data[2]));
@@ -78,18 +105,45 @@ namespace PoruchyHlaseni.Model
                     command.Parameters.Add(new SQLiteParameter("P5", 1));
                     command.Parameters.Add(new SQLiteParameter("P6", data[3]));
                     command.Parameters.Add(new SQLiteParameter("P7", data[1]));
-
                     command.ExecuteNonQuery();
                     conn.Close();
                 }
             }
-            catch (SQLiteException)
+            catch (SQLiteException x)
+            {
+                success = false;
+                LogClass log = new LogClass();
+                log.writeLog(x.ToString());
+            }
+            if (success)
             {
 
-                success = false;
+                SendEmail sendEmail = new SendEmail();
+                sendEmail.sendNewFailure(data, dateTime,getEmails(data[0]));
             }
-
             return success;
+        }
+        public DataTable getEmails(string stredisko)
+        {
+            DataTable dt = new DataTable();
+            using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=" + connectionString + ';'))
+            {
+                try
+                {
+                    conn.Open();
+                    SQLiteCommand cmd = new SQLiteCommand("select Email from Emails WHERE stredisko_id=9 or stredisko=:P1", conn);
+                    cmd.Parameters.Add("P1", DbType.String).Value = stredisko;
+                    SQLiteDataReader reader = cmd.ExecuteReader();
+                    dt.Load(reader);
+                    reader.Close();
+                }
+                catch (SQLiteException x)
+                {
+                    LogClass log = new LogClass();
+                    log.writeLog(x.ToString());
+                }
+            }
+            return dt;
         }
     }
 }

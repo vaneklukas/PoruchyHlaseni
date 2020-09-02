@@ -106,7 +106,7 @@
                  x:Name="TbCommnet" Grid.Row="22" Grid.RowSpan="5" Grid.Column="2" Grid.ColumnSpan="26"
                  BorderBrush="Black" BorderThickness="2" FontSize="20"  Visibility="Hidden"></TextBox>
        
-        <Button x:Name="BtNext" Grid.Row="28" Grid.RowSpan="2" Grid.Column="25" Grid.ColumnSpan="3" Click="BtNext_Click" 
+        <Button x:Name="BtNext" Grid.Row="28" Grid.RowSpan="2" Grid.Column="25" Grid.ColumnSpan="3" Click="BtDelete_Click" 
                 BorderBrush="Green" BorderThickness="2" Background="LightGreen" FontSize="16" Visibility="Visible">Smazat</Button>
         <Button x:Name="BtFinis" Grid.Row="28" Grid.RowSpan="2" Grid.Column="13" Grid.ColumnSpan="3" Click="BtFinis_Click" 
                 BorderBrush="Red" BorderThickness="2" Background="#FFFF5E75" FontSize="16" Visibility="Hidden">Hotovo</Button>

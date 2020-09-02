@@ -22,10 +22,14 @@ namespace PoruchyHlaseni.Model
 
             for (int i = 0; i < data.Rows.Count; i++)
             {
-                Stredisko stredisko = new Stredisko();
-                stredisko.Id = Convert.ToInt32(data.Rows[i]["stredisko_id"]);
-                stredisko.Name = data.Rows[i]["stredisko_name"].ToString();
-                strediskoList.Add(stredisko);
+                if (Convert.ToInt32(data.Rows[i]["stredisko_id"])!=9)
+                {
+                    Stredisko stredisko = new Stredisko();
+                    stredisko.Id = Convert.ToInt32(data.Rows[i]["stredisko_id"]);
+                    stredisko.Name = data.Rows[i]["stredisko_name"].ToString();
+                    strediskoList.Add(stredisko);
+                }
+                
             }
 
             return strediskoList;

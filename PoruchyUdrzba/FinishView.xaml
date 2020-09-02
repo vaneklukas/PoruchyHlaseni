@@ -1,4 +1,4 @@
-﻿<mah:MetroWindow x:Class="PoruchyUdrzba.MainWindow"
+﻿<mah:MetroWindow x:Class="PoruchyUdrzba.FinishView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +6,8 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:PoruchyUdrzba"
         mc:Ignorable="d"
-        Title="Poruchy Údržba" Height="{Binding SystemParameters.PrimaryScreenHeight}" 
-        Width="{Binding SystemParameters.PrimaryScreenWidth}" WindowStartupLocation="CenterScreen">
+        Title="Poruchy Údržba" Height="650" 
+        Width="600" WindowStartupLocation="CenterScreen">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <!--30sloupcu-->
@@ -75,42 +75,19 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label  FontSize="16" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" HorizontalContentAlignment="Right" Content="Počet otevřených poruch:"/>
-        <Label x:Name="SumLabel" FontSize="16" Grid.Row="1" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalContentAlignment="Left"  Content="0"/>
-        <Label  FontSize="16" Grid.Row="1" Grid.Column="17" Grid.RowSpan="2" Grid.ColumnSpan="8" HorizontalContentAlignment="Right" Content="Poslední aktualizace:"/>
-        <Label x:Name="dateTimeLabel" FontSize="16" Grid.Row="1" Grid.Column="25" Grid.RowSpan="2" Grid.ColumnSpan="4" HorizontalContentAlignment="Right" Loaded="dateTimeLabel_Loaded" Content="0"/>
-        
-        <DataGrid x:Name="OpenTopics"  Grid.Row="3" Grid.RowSpan="15" 
-                  Grid.Column="1" Grid.ColumnSpan="28" BorderBrush="LightGreen"
-                  BorderThickness="2" AutoGenerateColumns="False" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Středisko" Binding="{Binding Stredisko}"/>
-                
+      
 
-                <DataGridTextColumn Header=" Stroj"   Binding="{Binding Machine}"/>
-                <DataGridTextColumn Header="Typ Poruchy"  Binding="{Binding Type}" />
-                <DataGridTextColumn Header="Detaily" Binding="{Binding Comment}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Nahlášeno" Binding="{Binding OpenTime}"/>
-                <DataGridTextColumn Header="Nahlásil" Binding="{Binding Operator}"/>
-                <DataGridTextColumn Header="Převzato" Binding="{Binding StartTime}"/>
-                <DataGridTextColumn Header="Převzal" Binding="{Binding MaintOp}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button x:Name="BtTake" Grid.Row="23" Grid.RowSpan="2" Grid.Column="24" Grid.ColumnSpan="4" Click="BtTake_Click"
-                BorderBrush="Blue" BorderThickness="2" Background="LightSkyBlue" FontSize="16" Visibility="Visible">Převzít
-        </Button>
-        <Label x:Name="LbTest" FontSize="20" Grid.Row="23" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="5" HorizontalContentAlignment="Left"  Content="Zadej jméno:"/>
+        <Label  FontSize="20" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="30" HorizontalContentAlignment="Center" Content="Provedené opravy:"/>
+        <TextBox mah:TextBoxHelper.Watermark="Přidej prosím popis odstranění poruchy" mah:TextBoxHelper.ClearTextButton="True" 
+                 x:Name="TbCommnet" Grid.Row="5" Grid.RowSpan="5" Grid.Column="2" Grid.ColumnSpan="26"
+                 BorderBrush="Black" BorderThickness="2" FontSize="20"  Visibility="Visible"></TextBox>
+
+        <Label x:Name="LbTest" FontSize="20" Grid.Row="14" Grid.Column="10" Grid.RowSpan="3" Grid.ColumnSpan="8" HorizontalContentAlignment="Left"  Content="Zadej jméno:"/>
         <TextBox mah:TextBoxHelper.Watermark="Zadej prosím své jméno" mah:TextBoxHelper.ClearTextButton="True" 
-                 x:Name="TbName" Grid.Row="23" Grid.RowSpan="2" Grid.Column="7" Grid.ColumnSpan="14"
+                 x:Name="TbName" Grid.Row="18" Grid.RowSpan="3" Grid.Column="7" Grid.ColumnSpan="14"
                  BorderBrush="Black" BorderThickness="2" FontSize="20"  ></TextBox>
 
-        <Button x:Name="BtClose" Grid.Row="27" Grid.RowSpan="2" Grid.Column="14" Grid.ColumnSpan="4" Click="BtClose_Click"  
+        <Button x:Name="BtClose" Grid.Row="25" Grid.RowSpan="3" Grid.Column="10" Grid.ColumnSpan="8" Click="BtClose_Click"  
                 BorderBrush="Green" BorderThickness="2" Background="LightGreen" FontSize="16" Visibility="Visible">Uzavřít
         </Button>
     </Grid>

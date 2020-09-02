@@ -79,7 +79,7 @@ namespace PoruchyHlaseni
             }
             else
             {
-                DateTime dateTime = DateTime.Now;
+                string dateTime = DateTime.Now.ToString();
                 Database database = new Database();
                 string[] data = new string[5];
                 data[0] = SpBtStredisko.SelectedValue.ToString();
@@ -102,6 +102,25 @@ namespace PoruchyHlaseni
                             "Zkus to prosím znovu / nebo kontaktuj mistra");
                     }
                 }
+                if (SpBtStredisko.SelectedValue.ToString()=="Ostatní")
+                {
+                    data[1] = "ostatni";
+                    data[2] = "ostatni";
+                    data[3] = comment;
+                    data[4] = name;
+
+                    bool success = database.insertData(data, dateTime);
+                    if (success)
+                    {
+                        await this.ShowMessageAsync("Nahlášena porucha:", "Zadal: " + data[4] + "\r\n" + "Středisko: " + data[0] + "\r\n" + "Typ Poruchy: Ostatní" + "\r\n" +
+                        "Datum a čas nahlášení: " + dateTime + "\r\n" + "Komentář: " + data[3]);
+                    }
+                    else
+                    {
+                        await this.ShowMessageAsync("Chyba", "Nepodařilo se nahlásit poruchu!!!!" + "\r\n" +
+                            "Zkus to prosím znovu / nebo kontaktuj mistra");
+                    }
+                }
                 else
                 {
                     data[2] = SpBtMachine.SelectedValue.ToString();
@@ -110,7 +129,7 @@ namespace PoruchyHlaseni
                     bool success=database.insertData(data,dateTime);
                     if (success)
                     {
-                        await this.ShowMessageAsync("Nahlášena porucha:","Zadal: "+data[4]+"\r\n"+ "Středisko: " + data[0] + "\r\n" + "Stroj: " +
+                       await this.ShowMessageAsync("Nahlášena porucha:","Zadal: "+data[4]+"\r\n"+ "Středisko: " + data[0] + "\r\n" + "Stroj: " +
                        data[2] + "\r\n" + "Typ Poruchy: " + data[1] + "\r\n" + "Datum a čas nahlášení: " + dateTime + "\r\n" + "Komentář: " + data[3]);
                     }
                     else
@@ -125,7 +144,7 @@ namespace PoruchyHlaseni
             }
         }
 
-        private async void BtNext_Click(object sender, RoutedEventArgs e)
+        private async void BtDelete_Click(object sender, RoutedEventArgs e)
         {
             var mySettings = new MetroDialogSettings()
             {
@@ -173,9 +192,19 @@ namespace PoruchyHlaseni
             if (SpBtStredisko.SelectedIndex!=-1)
             {
                 refresForm();
-                getTypes();
-                LabType.Visibility = Visibility.Visible;
-                SpBtType.Visibility = Visibility.Visible;
+                if (SpBtStredisko.SelectedValue.ToString() == "Ostatní")
+                {
+                    LabComment.Visibility = Visibility.Visible;
+                    TbCommnet.Visibility = Visibility.Visible;
+                    BtFinis.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    getTypes();
+                    LabType.Visibility = Visibility.Visible;
+                    SpBtType.Visibility = Visibility.Visible;
+                }
+               
             }
             
         }
@@ -184,7 +213,7 @@ namespace PoruchyHlaseni
         {
             if (SpBtType.SelectedIndex!=-1)
             {
-                if (SpBtType.SelectedValue.ToString() == "Budova")
+                if (SpBtType.SelectedValue.ToString() == "Budova" )
                 {
                     LabComment.Visibility = Visibility.Visible;
                     TbCommnet.Visibility = Visibility.Visible;
