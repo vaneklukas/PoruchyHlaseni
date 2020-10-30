@@ -131,6 +131,7 @@
   <ItemGroup>
     <Compile Include="Model\Database.cs" />
     <Compile Include="Model\DataGridData.cs" />
+    <Compile Include="Model\DataGridDataOld.cs" />
     <Compile Include="Model\LogClass.cs" />
     <Compile Include="Model\SendEmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

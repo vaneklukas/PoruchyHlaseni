@@ -91,13 +91,14 @@ namespace PoruchyHlaseni.Model
         public bool insertData(string[]data, string dateTime)
         {
             bool success= true;
-
+            DataTable dataTable = new DataTable();
             try
             {
                 using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=" + connectionString + ';'))
                 {
                     conn.Open();
-                    SQLiteCommand command = new SQLiteCommand("INSERT into Poruchy (stredisko,machine,startTime,operator,open,commentOp,type) VALUES(:P1,:P2, :P3, :P4, :P5, :P6, :P7)", conn);
+                    SQLiteCommand command = new SQLiteCommand("INSERT into Poruchy (stredisko,machine,startTime,operator,open,commentOp,type)" +
+                        " VALUES(:P1,:P2, :P3, :P4, :P5, :P6, :P7)", conn);
                     command.Parameters.Add(new SQLiteParameter("P1", data[0]));
                     command.Parameters.Add(new SQLiteParameter("P2", data[2]));
                     command.Parameters.Add(new SQLiteParameter("P3", dateTime));
@@ -106,7 +107,12 @@ namespace PoruchyHlaseni.Model
                     command.Parameters.Add(new SQLiteParameter("P6", data[3]));
                     command.Parameters.Add(new SQLiteParameter("P7", data[1]));
                     command.ExecuteNonQuery();
+                    SQLiteCommand cmd = new SQLiteCommand("SELECT poruchy_ID FROM Poruchy ORDER BY poruchy_ID DESC LIMIT 1;",conn);
+
+                    SQLiteDataReader reader = cmd.ExecuteReader();
+                    dataTable.Load(reader);
                     conn.Close();
+                    
                 }
             }
             catch (SQLiteException x)
@@ -119,7 +125,7 @@ namespace PoruchyHlaseni.Model
             {
 
                 SendEmail sendEmail = new SendEmail();
-                sendEmail.sendNewFailure(data, dateTime,getEmails(data[0]));
+                sendEmail.sendNewFailure(data, dateTime,getEmails(data[0]),dataTable);
             }
             return success;
         }

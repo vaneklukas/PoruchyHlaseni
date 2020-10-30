@@ -26,18 +26,19 @@ namespace PoruchyUdrzba.Model
             string detailError = "";
             if (typeError== "budova")
             {
-                detailError = dt.Rows[0]["stredisko"].ToString() + "-" + dt.Rows[0]["type"].ToString();
+                detailError = "Porucha č. " + dt.Rows[0]["poruchy_ID"].ToString() + "-" + dt.Rows[0]["stredisko"].ToString() + "-" + dt.Rows[0]["type"].ToString();
             }
             else
             {
-                 detailError = dt.Rows[0]["stredisko"].ToString() + "-" +
+                 detailError = "Porucha č. " + dt.Rows[0]["poruchy_ID"].ToString() + "-" + dt.Rows[0]["stredisko"].ToString() + "-" +
                     dt.Rows[0]["machine"].ToString() + "-" + dt.Rows[0]["type"].ToString();
             }
             
             string message = System.IO.File.ReadAllText("Image/EmailClose.html");
-            message = message.Replace("#Detail_Opravy#",detailError);
+            message = message.Replace("#Detail_Opravy#", detailError);
             message = message.Replace("#datumOD#", dt.Rows[0]["startTime"].ToString());
-            message = message.Replace("#datumDO#", dt.Rows[0]["finishTime"].ToString());  
+            message = message.Replace("#datumDO#", dt.Rows[0]["finishTime"].ToString());
+            message = message.Replace("#CommetOP#", dt.Rows[0]["commentOp"].ToString());
             message = message.Replace("#CommetMT#", dt.Rows[0]["commentM"].ToString());
             message = message.Replace("#NameMT#", dt.Rows[0]["maintenance"].ToString());
 
@@ -53,14 +54,15 @@ namespace PoruchyUdrzba.Model
 
                 for (int i = 0; i < emailData.Rows.Count; i++)
                 {
-                    mail.To.Add(emailData.Rows[i]["Email"].ToString()); //TODO add list of senders
+                    mail.To.Add(emailData.Rows[i]["Email"].ToString());
                 }
-                if (emailData.Rows[0]["type"].ToString()=="Elektro")
+                if (dt.Rows[0]["type"].ToString() == "Elektro")
                 {
                     mail.To.Add("ales.duchac@bnint.cz");
                 }
+                //mail.To.Add("lukas.vanek@bnint.cz");
                 mail.From = new MailAddress("poruchy@bnint.cz");
-                mail.Subject = "Uzavření opravy";
+                mail.Subject = "Uzavření opravy č. " + dt.Rows[0]["poruchy_ID"].ToString();
                 mail.Body = htmlMessage;
                 mail.IsBodyHtml = true;
 

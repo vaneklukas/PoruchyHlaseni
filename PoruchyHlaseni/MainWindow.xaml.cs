@@ -61,6 +61,8 @@ namespace PoruchyHlaseni
                 SpBtType.Items.Add(item.type_name);
             }
         }
+
+        //form validation
         private async void BtFinis_Click(object sender, RoutedEventArgs e)
         {
             string comment = TbCommnet.Text;
@@ -83,8 +85,16 @@ namespace PoruchyHlaseni
                 Database database = new Database();
                 string[] data = new string[5];
                 data[0] = SpBtStredisko.SelectedValue.ToString();
-                data[1] = SpBtType.SelectedValue.ToString();
-                if (SpBtType.SelectedValue.ToString()=="Budova")
+                if (SpBtType.SelectedValue==null)
+                {
+                    data[1] = "ostatni";
+                }
+                else
+                {
+                    data[1] = SpBtType.SelectedValue.ToString();
+
+                }
+                if (data[1]=="Budova")
                 {
                     data[2] = "budova";
                     data[3] = comment;
@@ -168,12 +178,12 @@ namespace PoruchyHlaseni
         }
         private void cleanForm()
         {
-            refresForm();
+            refreshForm();
             SpBtStredisko.SelectedIndex = -1;
             TbName.Clear();
             TbName.Focus();
         }
-        private void refresForm()
+        private void refreshForm()
         {
             BtFinis.Visibility = Visibility.Hidden;
             TbCommnet.Clear();
@@ -191,7 +201,7 @@ namespace PoruchyHlaseni
         {
             if (SpBtStredisko.SelectedIndex!=-1)
             {
-                refresForm();
+                refreshForm();
                 if (SpBtStredisko.SelectedValue.ToString() == "Ostatní")
                 {
                     LabComment.Visibility = Visibility.Visible;

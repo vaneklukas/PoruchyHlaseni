@@ -4,10 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:dgx="urn:tom-englert.de/DataGridExtensions"
+        xmlns:src="clr-namespace:PoruchyUdrzba"         
         xmlns:local="clr-namespace:PoruchyUdrzba"
         mc:Ignorable="d"
         Title="Poruchy Údržba" Height="{Binding SystemParameters.PrimaryScreenHeight}" 
         Width="{Binding SystemParameters.PrimaryScreenWidth}" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+
+        <dgx:RegexContentFilterFactory x:Key="RegexContentFilterFactory" />
+        <dgx:SimpleContentFilterFactory x:Key="SimpleContentFilterFactory" />
+
+    </Window.Resources>
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <!--30sloupcu-->
@@ -75,43 +83,224 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label  FontSize="16" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" HorizontalContentAlignment="Right" Content="Počet otevřených poruch:"/>
-        <Label x:Name="SumLabel" FontSize="16" Grid.Row="1" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalContentAlignment="Left"  Content="0"/>
-        <Label  FontSize="16" Grid.Row="1" Grid.Column="17" Grid.RowSpan="2" Grid.ColumnSpan="8" HorizontalContentAlignment="Right" Content="Poslední aktualizace:"/>
-        <Label x:Name="dateTimeLabel" FontSize="16" Grid.Row="1" Grid.Column="25" Grid.RowSpan="2" Grid.ColumnSpan="4" HorizontalContentAlignment="Right" Loaded="dateTimeLabel_Loaded" Content="0"/>
-        
-        <DataGrid x:Name="OpenTopics"  Grid.Row="3" Grid.RowSpan="15" 
+        <mah:MetroAnimatedTabControl x:Name="TabCon"  Grid.ColumnSpan="30"  Grid.RowSpan="30">
+            <mah:MetroTabItem x:Name="TabItaktual" Grid.RowSpan="30" Grid.ColumnSpan="30" Header="Aktuální">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!--30sloupcu-->
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <!--30 radku-->
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label  FontSize="16" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="5" HorizontalContentAlignment="Right" Content="Počet otevřených poruch:"/>
+                    <Label x:Name="SumLabel" FontSize="16" Grid.Row="1" Grid.Column="6" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalContentAlignment="Left"  Content="0"/>
+                    <Label  FontSize="16" Grid.Row="1" Grid.Column="17" Grid.RowSpan="2" Grid.ColumnSpan="8" HorizontalContentAlignment="Right" Content="Poslední aktualizace:"/>
+                    <Label x:Name="dateTimeLabel" FontSize="16" Grid.Row="1" Grid.Column="25" Grid.RowSpan="2" Grid.ColumnSpan="4" HorizontalContentAlignment="Right" Loaded="dateTimeLabel_Loaded" Content="0"/>
+                    <DataGrid x:Name="OpenTopics"  Grid.Row="3" Grid.RowSpan="15" 
                   Grid.Column="1" Grid.ColumnSpan="28" BorderBrush="LightGreen"
-                  BorderThickness="2" AutoGenerateColumns="False" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Středisko" Binding="{Binding Stredisko}"/>
-                
+                  BorderThickness="2" AutoGenerateColumns="False"
+                  EnableColumnVirtualization="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Středisko" Binding="{Binding Stredisko}"/>
+                            <DataGridTextColumn Header=" Stroj"   Binding="{Binding Machine}"/>
+                            <DataGridTextColumn Header="Typ Poruchy"  Binding="{Binding Type}" />
+                            <DataGridTextColumn Header="Detaily" Binding="{Binding Comment}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Nahlášeno" Binding="{Binding OpenTime}"/>
+                            <DataGridTextColumn Header="Nahlásil" Binding="{Binding Operator}"/>
+                            <DataGridTextColumn Header="Převzato" Binding="{Binding StartTime}"/>
+                            <DataGridTextColumn Header="Převzal" Binding="{Binding MaintOp}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="BtTake" Grid.Row="23" Grid.RowSpan="2" Grid.Column="24" Grid.ColumnSpan="4" Click="BtTake_Click"
+                    BorderBrush="Blue" BorderThickness="2" Background="LightSkyBlue" FontSize="16" Visibility="Visible">Převzít
+                    </Button>
+                    <Label x:Name="LbTest" FontSize="20" Grid.Row="23" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="5" HorizontalContentAlignment="Left"  Content="Zadej jméno:"/>
+                    <TextBox mah:TextBoxHelper.Watermark="Zadej prosím své jméno" mah:TextBoxHelper.ClearTextButton="True" 
+                    x:Name="TbName" Grid.Row="23" Grid.RowSpan="2" Grid.Column="7" Grid.ColumnSpan="14"
+                    BorderBrush="Black" BorderThickness="2" FontSize="20"  ></TextBox>
 
-                <DataGridTextColumn Header=" Stroj"   Binding="{Binding Machine}"/>
-                <DataGridTextColumn Header="Typ Poruchy"  Binding="{Binding Type}" />
-                <DataGridTextColumn Header="Detaily" Binding="{Binding Comment}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Nahlášeno" Binding="{Binding OpenTime}"/>
-                <DataGridTextColumn Header="Nahlásil" Binding="{Binding Operator}"/>
-                <DataGridTextColumn Header="Převzato" Binding="{Binding StartTime}"/>
-                <DataGridTextColumn Header="Převzal" Binding="{Binding MaintOp}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button x:Name="BtTake" Grid.Row="23" Grid.RowSpan="2" Grid.Column="24" Grid.ColumnSpan="4" Click="BtTake_Click"
-                BorderBrush="Blue" BorderThickness="2" Background="LightSkyBlue" FontSize="16" Visibility="Visible">Převzít
-        </Button>
-        <Label x:Name="LbTest" FontSize="20" Grid.Row="23" Grid.Column="1" Grid.RowSpan="3" Grid.ColumnSpan="5" HorizontalContentAlignment="Left"  Content="Zadej jméno:"/>
-        <TextBox mah:TextBoxHelper.Watermark="Zadej prosím své jméno" mah:TextBoxHelper.ClearTextButton="True" 
-                 x:Name="TbName" Grid.Row="23" Grid.RowSpan="2" Grid.Column="7" Grid.ColumnSpan="14"
-                 BorderBrush="Black" BorderThickness="2" FontSize="20"  ></TextBox>
-
-        <Button x:Name="BtClose" Grid.Row="27" Grid.RowSpan="2" Grid.Column="14" Grid.ColumnSpan="4" Click="BtClose_Click"  
-                BorderBrush="Green" BorderThickness="2" Background="LightGreen" FontSize="16" Visibility="Visible">Uzavřít
-        </Button>
+                    <Button x:Name="BtClose" Grid.Row="27" Grid.RowSpan="2" Grid.Column="14" Grid.ColumnSpan="4" Click="BtClose_Click"  
+                    BorderBrush="Green" BorderThickness="2" Background="LightGreen" FontSize="16" Visibility="Visible">Uzavřít
+                    </Button>
+                </Grid>
+            </mah:MetroTabItem>
+            <mah:MetroTabItem x:Name="TabItHistory" Grid.RowSpan="30" Grid.ColumnSpan="30" Header="Historie" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <!--30sloupcu-->
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <!--30 radku-->
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="BtLoadOld" Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="5" Click="BtLoadOld_Click"  
+                    BorderBrush="Green" BorderThickness="2" Background="LightGreen" FontSize="16" Visibility="Visible" >Načíst historii
+                    </Button>
+                    <DataGrid x:Name="ClosedTopics" Margin="0.5" Grid.Row="4" Grid.RowSpan="25" 
+                  Grid.Column="0" Grid.ColumnSpan="30" BorderBrush="LightGreen"
+                  BorderThickness="2" AutoGenerateColumns="False"
+                  EnableColumnVirtualization="True"
+                  dgx:DataGridFilter.ContentFilterFactory="{StaticResource RegexContentFilterFactory}"
+                  dgx:DataGridFilter.IsAutoFilterEnabled="True" >
+                        <DataGrid.Resources>
+                            <!-- Override the filter icon used in the default templates with a fat orange symbol; active for this grid only -->
+                            <ControlTemplate x:Key="{x:Static dgx:DataGridFilter.IconTemplateKey}">
+                                <Path Data="M0,0 L10,0 7,5 7,9 3,9 3,5 Z" Fill="Orange" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2,0" />
+                            </ControlTemplate>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="AUTO" Header="Středisko" Binding="{Binding Stredisko}"/>
+                            <DataGridTextColumn Width="AUTO" Header=" Stroj"   Binding="{Binding Machine}"/>
+                            <DataGridTextColumn Width="AUTO" Header="Typ Poruchy"  Binding="{Binding Type}" />
+                            <DataGridTextColumn Width="AUTO" Header="Detail_operátor" Binding="{Binding CommentOp}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Width="AUTO" Header="Nahlášeno" Binding="{Binding OpenTime}"/>
+                            <DataGridTextColumn Width="AUTO" Header="Nahlásil" Binding="{Binding Operator}"/>
+                            <DataGridTextColumn Width="AUTO" Header="Ukončeno" Binding="{Binding CloseTime}"/>
+                            <DataGridTextColumn Width="AUTO" Header="Ukončil" Binding="{Binding Mainten}"/>
+                            <DataGridTextColumn Width="AUTO" Header="Detail_údržba" Binding="{Binding CommentMt}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Width="AUTO" Header="Převzato" Binding="{Binding StartTime}"/>
+                            <DataGridTextColumn Width="AUTO" Header="Převzal" Binding="{Binding MaintOp}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </mah:MetroTabItem>
+        </mah:MetroAnimatedTabControl>
     </Grid>
 </mah:MetroWindow>

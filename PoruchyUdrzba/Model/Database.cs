@@ -27,6 +27,19 @@ namespace PoruchyUdrzba.Model
             }
             return dataTable;
         }
+        public DataTable dataTableOld()
+        {
+            DataTable dataTable = new DataTable();
+            using (SQLiteConnection conn = new SQLiteConnection(@"Data Source=" + connectionString + ';'))
+            {
+                conn.Open();
+                SQLiteCommand command = new SQLiteCommand("Select * from Poruchy where open=0", conn);
+                SQLiteDataReader reader = command.ExecuteReader();
+                dataTable.Load(reader);
+                reader.Close();
+            }
+            return dataTable;
+        }
         public void updateData(int id, string comment, string name)
         {
             string datetime = DateTime.Now.ToString();

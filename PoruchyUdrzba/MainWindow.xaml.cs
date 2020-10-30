@@ -88,5 +88,17 @@ namespace PoruchyUdrzba
             TbName.Clear();
             getDbData();
         }
+
+        private void getDbDataHistory()
+        {
+            DataGridDataOld lw = new DataGridDataOld();
+            List<DataGridDataOld> data = lw.getData();
+            ClosedTopics.ItemsSource = data;
+        }
+
+        private void BtLoadOld_Click(object sender, RoutedEventArgs e)
+        {
+            getDbDataHistory();
+        }
     }
 }

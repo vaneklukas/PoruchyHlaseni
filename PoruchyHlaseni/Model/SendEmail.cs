@@ -6,7 +6,7 @@ namespace PoruchyHlaseni.Model
 {
     internal class SendEmail
     {
-        internal void sendNewFailure(string[] data, string dateTime,DataTable dt)
+        internal void sendNewFailure(string[] data, string dateTime,DataTable dt, DataTable dataTable)
         {
             try
             {
@@ -15,22 +15,21 @@ namespace PoruchyHlaseni.Model
 
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    mail.To.Add(dt.Rows[i]["Email"].ToString()); //TODO add list of senders
+                    mail.To.Add(dt.Rows[i]["Email"].ToString());
                 }
-                if (data[1]=="Elektro")
+                if (data[1] == "Elektro")
                 {
                     mail.To.Add("ales.duchac@bnint.cz");
                 }
+                //mail.To.Add("lukas.vanek@bnint.cz");
                 mail.From = new MailAddress("poruchy@bnint.cz");
-                mail.Subject = "Nová porucha "+data[0];
+                mail.Subject = "Nová porucha č. "+dataTable.Rows[0]["poruchy_ID"].ToString()+" "+ data[0];
                 mail.Priority = MailPriority.High;
-                mail.Body = getMessage(data,dateTime);
+                mail.Body = getMessage(data,dateTime, dataTable.Rows[0]["poruchy_ID"].ToString());
                 mail.IsBodyHtml = true;
 
                 SmtpServer.Port = 25;
                 
-                //SmtpServer.EnableSsl = true;
-
                 SmtpServer.Send(mail);
             }
             catch (Exception x) 
@@ -39,16 +38,16 @@ namespace PoruchyHlaseni.Model
                 log.writeLog(x.ToString());
             }
         }
-        private string getMessage(string[] data, string dateTime)
+        private string getMessage(string[] data, string dateTime, string idPorucha)
         {
             string detailError = "";
             if (data[1]=="Budova")
             {
-                 detailError = data[0] + "-" + data[1];
+                 detailError = "Porucha č. "+ idPorucha + "-" + data[0] + "-" + data[1];
             }
             else
             {
-                 detailError = data[0] + "-" + data[2]+ "-" + data[1];
+                 detailError = "Porucha č. " + idPorucha + "-" + data[0] + "-" + data[2]+ "-" + data[1];
             }
             string message = System.IO.File.ReadAllText("Image/EmailOpen.html");
             message = message.Replace("#Detail_Opravy#", detailError);
